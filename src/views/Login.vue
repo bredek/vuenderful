@@ -9,14 +9,18 @@
             <form>
               <div class="form-group">
                 <label>Your email</label>
-                <input name class="form-control" placeholder="Email" type="email" />
+                <input name class="form-control" placeholder="Email" type="email" v-model="email" />
                 <p class="text-danger mt-1">Error message</p>
               </div>
               <!-- form-group// -->
               <div class="form-group">
                 <a class="float-right" href="#">Forgot?</a>
                 <label>Your password</label>
-                <input class="form-control" placeholder="******" type="password" />
+                <input
+                  class="form-control"
+                  placeholder="******"
+                  type="password"
+                  v-model="password" />
               </div>
               <!-- form-group// -->
               <div class="form-group">
@@ -29,7 +33,10 @@
               </div>
               <!-- form-group// -->
               <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block"
+                  @click.prevent="signUp">Login</button>
               </div>
               <!-- form-group// -->
             </form>
@@ -43,7 +50,26 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+
 export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
   name: 'login',
+  methods: {
+    signUp() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then(response => console.log(response))
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
